@@ -13,14 +13,23 @@ import {
 } from "@/components/ui/navigation-menu";
 import { Toaster } from "@/components/ui/sonner";
 import { UserInfo } from "@/components/user-info";
-import { useLocale, getLocalPathname } from "@/lib/i18n";
+import { getLocale, getLocalPathname } from "@/lib/i18n";
 import { MyRouterContext } from "@/lib/route-context";
 import { cn } from "@/lib/utils";
 import appCss from "@/styles/app.css?url";
 import rehypeCssUrl from "@/styles/rehype-github-callouts.css?url";
 import { Trans, useLingui } from "@lingui/react/macro";
 import { NavigationMenuLink } from "@radix-ui/react-navigation-menu";
-import { createRootRouteWithContext, HeadContent, Link, Outlet, Scripts, useRouterState } from "@tanstack/react-router";
+import {
+  createRootRouteWithContext,
+  HeadContent,
+  Link,
+  Outlet,
+  Scripts,
+  useLocation,
+  useRouterState,
+} from "@tanstack/react-router";
+import { useEffect } from "react";
 import { TbExternalLink } from "react-icons/tb";
 
 interface NavigationMenuLinkProps {
@@ -139,18 +148,18 @@ const contents = [
         <NavMenuLink href="/pilot/pilot-softwares" large className="row-span-3">
           <Trans>Pilot Softwares</Trans>
         </NavMenuLink>
-        <NavMenuLink href="https://chartfox.org/">
+        <NavMenuLink href="https://chartfox.org/" external>
           <Trans>Charts</Trans>
         </NavMenuLink>
-        <NavMenuLink href="https://vacdm.vatprc.net/">
+        <NavMenuLink href="https://vacdm.vatprc.net/" external>
           <Trans>vACDM</Trans>
         </NavMenuLink>
-        <NavMenuLink href="https://metar-taf.com/">
+        <NavMenuLink href="https://metar-taf.com/" external>
           <Trans>Weather</Trans>
         </NavMenuLink>
         <NavMenuLink href="/flights">
           <Trans>Flight plan checker</Trans>
-          <Badge className="ml-2 rounded-full" variant="destructive">
+          <Badge className="ml-2 rounded-full bg-red-100 dark:bg-red-900" variant="secondary">
             <Trans context="new feature">New</Trans>
           </Badge>
         </NavMenuLink>
@@ -192,7 +201,7 @@ const contents = [
 ];
 
 export const NavMenu: React.FC = () => {
-  const locale = useLocale();
+  const locale = getLocale();
 
   return (
     <NavigationMenu>
@@ -223,9 +232,9 @@ const Application: React.FC<ApplicationProps> = ({ children }: ApplicationProps)
   }
 
   return (
-    <div className="container mx-auto">
+    <>
       <header className="bg-background sticky top-0 z-50 w-full border-b-[1px] px-8 py-2">
-        <div className="flex flex-col items-center gap-4 md:flex-row">
+        <div className="container mx-auto flex flex-col items-center gap-4 md:flex-row">
           <Link to="/">
             <img src={theme === "light" ? logo : logoWhite} alt={t`VATSIM P.R.China Division`} className="h-6" />
           </Link>
@@ -238,7 +247,7 @@ const Application: React.FC<ApplicationProps> = ({ children }: ApplicationProps)
         </div>
       </header>
       <div className="pt-4">{children}</div>
-      <footer className="mt-8 mb-4">
+      <footer className="container mx-auto mt-8 mb-4">
         <p className="text-slate-500 dark:text-slate-300">
           <Trans>
             &copy; 2010 - 2025, VATSIM P.R. China Division. All rights reserved. Powered by Microsoft Azure, .NET,
@@ -246,7 +255,7 @@ const Application: React.FC<ApplicationProps> = ({ children }: ApplicationProps)
           </Trans>
         </p>
       </footer>
-    </div>
+    </>
   );
 };
 
@@ -263,18 +272,34 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
       links: [
         { rel: "stylesheet", href: appCss },
         { rel: "stylesheet", href: rehypeCssUrl },
-        { rel: "alternate", hrefLang: "en", href: getLocalPathname(pathname, "en") },
-        { rel: "alternate", hrefLang: "zh-cn", href: getLocalPathname(pathname, "zh-cn") },
+        { rel: "alternate", hrefLang: "en", href: getLocalPathname("en", pathname) },
+        { rel: "alternate", hrefLang: "zh-cn", href: getLocalPathname("zh-cn", pathname) },
+        { rel: "alternate", hrefLang: "x-default", href: getLocalPathname("", pathname) },
       ],
     };
   },
 });
 
 function RootLayout() {
-  const route = useRouterState();
+  const { publicHref } = useLocation();
+
+  useEffect(() => {
+    if (publicHref.startsWith("/en") || publicHref.startsWith("/zh-cn")) {
+      return;
+    }
+
+    if (publicHref.includes("/auth/callback")) {
+      return;
+    }
+
+    const locale = localStorage.getItem("vatprc-homepage-locale") as "en" | "zh-cn" | null;
+    if (locale) {
+      setTimeout(() => window.location.replace(getLocalPathname(locale)));
+    }
+  });
 
   return (
-    <html lang={useLocale() ?? "en"} className={cn(route.location.pathname !== "/division/api" && "scroll-pt-16")}>
+    <html lang={getLocale() ?? "en"} className={cn(publicHref !== "/division/api" && "scroll-pt-16")}>
       <head>
         <HeadContent />
       </head>

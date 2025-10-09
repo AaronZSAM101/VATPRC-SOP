@@ -1,22 +1,34 @@
-import { useLocale } from "@/lib/i18n";
+import { Button } from "./ui/button";
+import { getLocale } from "@/lib/i18n";
 import { CommunityEventData } from "@/lib/types/community";
 import { VatsimEventData } from "@/lib/types/vatsim";
 import { cn } from "@/lib/utils";
 import { utc } from "@date-fns/utc";
-import dayGridPlugin from "@fullcalendar/daygrid";
-import FullCalendar from "@fullcalendar/react";
 import { Trans } from "@lingui/react/macro";
 import { useQuery } from "@tanstack/react-query";
-import { format, intlFormatDistance, isAfter } from "date-fns";
+import {
+  add,
+  differenceInCalendarDays,
+  endOfMonth,
+  format,
+  intlFormat,
+  intlFormatDistance,
+  isAfter,
+  isMonday,
+  isSameDay,
+  isSameMonth,
+  isSameWeek,
+  nextMonday,
+  previousMonday,
+  startOfMonth,
+  sub,
+} from "date-fns";
 import React from "react";
-import { TbLoader } from "react-icons/tb";
+import { TbChevronLeft, TbChevronRight, TbLoader } from "react-icons/tb";
 
 const COMMUNITY_EVENT_ENDPOINT =
   "https://community.vatprc.net/discourse-post-event/events.json?category_id=66&include_subcategories=true&include_expired=true";
-const VATSIM_EVENT_ENDPOINT =
-  process.env.NODE_ENV === "development"
-    ? "/api/cors/vatsim-events-prc"
-    : "https://cors-proxy.vatprc.net/?target=" + encodeURIComponent("https://my.vatsim.net/api/v2/events/latest");
+const VATSIM_EVENT_ENDPOINT = "/uniapi/api/compat/homepage/events/vatsim";
 
 const isChinaAirport = (ident: string) =>
   ident[0] == "Z" &&
@@ -38,7 +50,7 @@ const Event: React.FC<{
   url: string;
   isExam: boolean;
 }> = ({ title, start, end, url, isExam }) => {
-  const locale = useLocale();
+  const locale = getLocale();
 
   return (
     <a
@@ -55,7 +67,14 @@ const Event: React.FC<{
       >
         {title}
       </span>
-      <span>{intlFormatDistance(start, Date.now(), { locale })}</span>
+      <span>
+        {intlFormatDistance(start, Date.now(), { locale })}
+        {isSameWeek(start, Date.now(), { weekStartsOn: 1 }) && (
+          <span className="ml-2 rounded-md bg-red-200 px-1 py-0.5 dark:bg-red-800">
+            <Trans>In This Week</Trans>
+          </span>
+        )}
+      </span>
       <div className="flex gap-1">
         <span>{format(start, "MM-dd", { in: utc })}</span>
         <span>
@@ -85,7 +104,7 @@ const Event: React.FC<{
 };
 
 export const RecentEvents: React.FC<{ className?: string }> = ({ className }) => {
-  const locale = useLocale();
+  const locale = getLocale();
   const { data: cnData, isLoading: isCnLoading } = useQuery({
     queryKey: [COMMUNITY_EVENT_ENDPOINT],
     queryFn: (ctx) => fetch(ctx.queryKey[0]).then((res) => res.json() as Promise<CommunityEventData>),
@@ -96,6 +115,8 @@ export const RecentEvents: React.FC<{ className?: string }> = ({ className }) =>
     queryFn: (ctx) => fetch(ctx.queryKey[0]).then((res) => res.json() as Promise<VatsimEventData>),
     enabled: locale === "en",
   });
+
+  const [refDate, setRefDate] = React.useState(new Date());
 
   if (isCnLoading || isEnLoading) {
     return <TbLoader className="m-auto h-24 animate-spin" size={48} />;
@@ -130,20 +151,67 @@ export const RecentEvents: React.FC<{ className?: string }> = ({ className }) =>
   return (
     <div className={cn(className, "grid grid-cols-2 gap-4 md:grid-cols-3")}>
       <div className="col-span-2">
-        <FullCalendar
-          plugins={[dayGridPlugin]}
-          initialView="dayGridMonth"
-          events={events.map((e) => ({
-            id: e.id.toString(),
-            title: e.title,
-            url: e.url,
-            start: e.start,
-            end: e.end,
-            display: "list-item",
-          }))}
-          expandRows
-          locale={locale}
-        />
+        <div className="my-6 flex items-center justify-between">
+          <h4 className="text-3xl">{intlFormat(refDate, { year: "numeric", month: "long" }, { locale })}</h4>
+          <div>
+            <Button variant="ghost" onClick={() => setRefDate(sub(refDate, { months: 1 }))}>
+              <TbChevronLeft />
+            </Button>
+            <Button variant="ghost" onClick={() => setRefDate(add(refDate, { months: 1 }))}>
+              <TbChevronRight />
+            </Button>
+          </div>
+        </div>
+        <div className="grid grid-cols-7 items-center justify-items-center gap-4">
+          <div className="contents font-bold">
+            <span>Mon</span>
+            <span>Tue</span>
+            <span>Wed</span>
+            <span>Thu</span>
+            <span>Fri</span>
+            <span>Sat</span>
+            <span>Sun</span>
+          </div>
+          {(() => {
+            const monthStart = startOfMonth(refDate);
+            const start = isMonday(monthStart) ? monthStart : previousMonday(monthStart);
+            const monthEnd = endOfMonth(refDate);
+            const end = isMonday(monthEnd) ? monthEnd : nextMonday(monthEnd);
+            const days = differenceInCalendarDays(end, start);
+            return Array.from({ length: days }, (_, i) => {
+              const d = add(start, { days: i });
+              const eventsOnDay = events.filter((e) => isSameDay(e.start, d));
+              if (!isSameMonth(d, refDate)) {
+                return <div key={d.toISOString()}></div>;
+              }
+              return (
+                <div key={d.toISOString()} className="flex min-h-24 w-full flex-col gap-1 self-end">
+                  <span className={cn("text-right", eventsOnDay.length === 0 && "text-muted-foreground")}>
+                    {format(d, "dd")}
+                  </span>
+                  {eventsOnDay.map((e) => (
+                    <a
+                      key={e.id}
+                      className={cn(
+                        "rounded px-1 text-sm",
+                        e.isExam
+                          ? "bg-blue-200 text-blue-800 dark:bg-blue-800 dark:text-blue-200"
+                          : "bg-red-200 text-red-800 dark:bg-red-800 dark:text-red-200",
+                        isSameWeek(e.start, Date.now(), { weekStartsOn: 1 }) &&
+                          "border border-red-700 font-bold dark:border-red-300",
+                      )}
+                      href={e.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {e.title}
+                    </a>
+                  ))}
+                </div>
+              );
+            });
+          })()}
+        </div>
       </div>
       <div className="col-span-2 flex flex-col items-stretch gap-2 md:col-span-1">
         {scheduledEvents.map((e) => (
