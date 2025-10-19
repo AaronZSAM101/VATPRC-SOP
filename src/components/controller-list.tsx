@@ -1,4 +1,5 @@
 import { Label } from "./ui/label";
+import { Spinner } from "./ui/spinner";
 import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
 import { Trans } from "@lingui/react/macro";
@@ -6,7 +7,6 @@ import { CheckedState } from "@radix-ui/react-checkbox";
 import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { useState } from "react";
-import { TbLoader } from "react-icons/tb";
 
 enum ControllerRating {
   Unknown = 0,
@@ -308,7 +308,7 @@ const PermissionTag = ({ permission, positionName, expiration }: PermissionTagPr
     permission !== ControllerPositionPermission.Restricted && (
       <span
         className={cn(
-          "flex items-end gap-1 rounded-sm px-2 py-1",
+          "flex items-end gap-1 px-2 py-1",
           permission === ControllerPositionPermission.Full &&
             "bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300",
           permission === ControllerPositionPermission.Training &&
@@ -402,7 +402,7 @@ export const ControllerList: React.FC = () => {
   const onShowAbsentChange = (e: CheckedState) => setShowAbsent(e === true);
 
   if (isLoading) {
-    return <TbLoader className="m-auto h-24 animate-spin" size={48} />;
+    return <Spinner />;
   }
 
   return (
@@ -435,7 +435,7 @@ export const ControllerList: React.FC = () => {
           })
           ?.filter((ctr) => showAbsent || ctr.status !== ControllerStatus.Absence)
           ?.map((ctr) => (
-            <div key={ctr.id} className="hover:bg-secondary flex flex-col gap-4 rounded-md border px-6 py-4">
+            <div key={ctr.id} className="hover:bg-secondary flex flex-col gap-4 border px-6 py-4">
               <div className="flex items-center gap-2">
                 <span className="text-xl font-bold">
                   {ctr.first_name} {ctr.last_name}

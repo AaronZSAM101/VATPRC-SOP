@@ -1,10 +1,11 @@
 import { Button } from "./ui/button";
+import { Spinner } from "./ui/spinner";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { $api } from "@/lib/client";
 import { cn } from "@/lib/utils";
 import { Trans, useLingui } from "@lingui/react/macro";
 import React, { useState } from "react";
-import { TbCaretUpDown, TbLoader } from "react-icons/tb";
+import { TbCaretUpDown } from "react-icons/tb";
 
 const Pilot: React.FC<{
   callsign: string;
@@ -13,7 +14,7 @@ const Pilot: React.FC<{
   arrival: string | null | undefined;
 }> = ({ callsign, aircraft, departure, arrival }) => {
   return (
-    <div className="hover:bg-secondary flex flex-col rounded-md border px-6 py-4">
+    <div className="hover:bg-secondary flex flex-col border px-6 py-4">
       <div className="flex gap-2">
         <span className="font-bold">{callsign}</span>
         <span className="font-light text-gray-500">{aircraft}</span>
@@ -35,7 +36,7 @@ export const OnlinePilots: React.FC<{ className?: string }> = ({ className }) =>
   const [open, setOpen] = useState(false);
 
   if (isLoading) {
-    return <TbLoader className="m-auto h-24 animate-spin" size={48} />;
+    return <Spinner />;
   }
 
   const pilots =

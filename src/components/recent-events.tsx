@@ -1,4 +1,5 @@
 import { Button } from "./ui/button";
+import { Spinner } from "./ui/spinner";
 import { getLocale } from "@/lib/i18n";
 import { CommunityEventData } from "@/lib/types/community";
 import { VatsimEventData } from "@/lib/types/vatsim";
@@ -24,7 +25,7 @@ import {
   sub,
 } from "date-fns";
 import React from "react";
-import { TbChevronLeft, TbChevronRight, TbLoader } from "react-icons/tb";
+import { TbChevronLeft, TbChevronRight } from "react-icons/tb";
 
 const COMMUNITY_EVENT_ENDPOINT =
   "https://community.vatprc.net/discourse-post-event/events.json?category_id=66&include_subcategories=true&include_expired=true";
@@ -54,7 +55,7 @@ const Event: React.FC<{
 
   return (
     <a
-      className="hover:bg-secondary flex min-w-48 flex-col gap-2 rounded-md border px-6 py-4 shadow-md"
+      className="hover:bg-secondary flex min-w-48 flex-col gap-2 border px-6 py-4"
       href={url}
       target="_blank"
       rel="noopener noreferrer"
@@ -70,7 +71,7 @@ const Event: React.FC<{
       <span>
         {intlFormatDistance(start, Date.now(), { locale })}
         {isSameWeek(start, Date.now(), { weekStartsOn: 1 }) && (
-          <span className="ml-2 rounded-md bg-red-200 px-1 py-0.5 dark:bg-red-800">
+          <span className="ml-2 bg-red-200 px-1 py-0.5 dark:bg-red-800">
             <Trans>In This Week</Trans>
           </span>
         )}
@@ -119,7 +120,7 @@ export const RecentEvents: React.FC<{ className?: string }> = ({ className }) =>
   const [refDate, setRefDate] = React.useState(new Date());
 
   if (isCnLoading || isEnLoading) {
-    return <TbLoader className="m-auto h-24 animate-spin" size={48} />;
+    return <Spinner />;
   }
 
   const events = [
@@ -193,12 +194,14 @@ export const RecentEvents: React.FC<{ className?: string }> = ({ className }) =>
                     <a
                       key={e.id}
                       className={cn(
-                        "rounded px-1 text-sm",
+                        "px-1 text-sm",
                         e.isExam
                           ? "bg-blue-200 text-blue-800 dark:bg-blue-800 dark:text-blue-200"
                           : "bg-red-200 text-red-800 dark:bg-red-800 dark:text-red-200",
                         isSameWeek(e.start, Date.now(), { weekStartsOn: 1 }) &&
-                          "border border-red-700 font-bold dark:border-red-300",
+                          (e.isExam
+                            ? "border border-blue-300 font-bold dark:border-blue-700"
+                            : "border border-red-300 font-bold dark:border-red-700"),
                       )}
                       href={e.url}
                       target="_blank"
