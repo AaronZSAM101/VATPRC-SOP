@@ -1,20 +1,24 @@
 import { paths } from "../api";
 import { ApiError } from "./ApiError";
 import { authMiddleware } from "./auth";
+import { notifications } from "@mantine/notifications";
 import createClient, { Middleware } from "openapi-fetch";
 import createQueryClient from "openapi-react-query";
-import { toast } from "sonner";
 
 const throwMiddleware: Middleware = {
   async onResponse({ response }) {
-    if (!response.ok) {
-      const body = (await response.clone().json()) as { message: string; error_code: string };
-      const err = new ApiError(body.message, response.status, body.error_code);
-      if (err.errorCode !== "INVALID_TOKEN") throw err;
+    if (response.ok) return;
+
+    const body = (await response.clone().json()) as { message: string; error_code: string };
+    const err = new ApiError(body.message, response.status, body.error_code);
+    if (err.errorCode !== "INVALID_TOKEN") {
+      notifications.show({
+        title: err.name,
+        message: err.message,
+        color: "red",
+      });
+      throw err;
     }
-  },
-  onError(err) {
-    if (err.error instanceof ApiError) toast(err.error.name, { description: err.error.message });
   },
 };
 

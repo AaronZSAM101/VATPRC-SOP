@@ -1,6 +1,8 @@
 import { getPathname } from "./utils";
+import { I18n, MessageDescriptor } from "@lingui/core";
+import { msg } from "@lingui/core/macro";
 
-export const getLocale = (): "en" | "zh-cn" => {
+export const inferLocale = (): "en" | "zh-cn" => {
   const pathname = getPathname();
   if (pathname.startsWith("/en")) {
     return "en";
@@ -14,7 +16,13 @@ export const getLocale = (): "en" | "zh-cn" => {
   if (typeof navigator !== "undefined" && navigator.language.startsWith("en")) {
     return "en";
   }
-  return "zh-cn";
+  if (typeof navigator !== "undefined" && navigator.languages.some((lang) => lang.startsWith("zh"))) {
+    return "zh-cn";
+  }
+  if (typeof navigator !== "undefined" && navigator.languages.some((lang) => lang.startsWith("en"))) {
+    return "en";
+  }
+  return "en";
 };
 
 export const getLocalPathname = (locale: "en" | "zh-cn" | "", path?: string) => {
@@ -29,4 +37,16 @@ export const getLocalPathname = (locale: "en" | "zh-cn" | "", path?: string) => 
     return normalized;
   }
   return `/${locale}${normalized}`;
+};
+
+export const localizeWithMap = <T extends string>(
+  map: Map<T, MessageDescriptor>,
+  value: T | undefined,
+  i18n: I18n,
+): string => {
+  if (!value) return "-";
+
+  const message = map.get(value);
+  if (message) return i18n._(message);
+  return i18n._(msg`Unknown: ${value}`);
 };

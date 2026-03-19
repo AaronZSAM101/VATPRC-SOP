@@ -1,11 +1,8 @@
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Spinner } from "@/components/ui/spinner";
 import { $api } from "@/lib/client";
 import { Trans } from "@lingui/react/macro";
+import { Button, FileInput } from "@mantine/core";
 import { createFileRoute } from "@tanstack/react-router";
-import { ChangeEventHandler, useState } from "react";
+import { useState } from "react";
 
 export const Route = createFileRoute("/docs/utils/image")({
   component: RouteComponent,
@@ -15,8 +12,8 @@ function RouteComponent() {
   const { mutate, data, error, isPending } = $api.useMutation("post", "/api/storage/images");
 
   const [file, setFile] = useState<File | null>(null);
-  const onSelectFile: ChangeEventHandler<HTMLInputElement> = (e) => {
-    setFile(e.target.files?.item(0) ?? null);
+  const onSelectFile = (e: File | null) => {
+    setFile(e);
   };
   const onUpload = () => {
     if (!file) return;
@@ -29,16 +26,16 @@ function RouteComponent() {
   };
 
   return (
-    <div className="mx-auto flex max-w-2xl flex-col gap-4">
+    <div className="container mx-auto flex flex-col items-start gap-4">
       <h1 className="text-3xl">
         <Trans>Upload image</Trans>
       </h1>
-      <Label htmlFor="picture">Picture</Label>
-      <Input id="picture" type="file" onChange={onSelectFile} />
-      <Button onClick={onUpload}>
-        {isPending && <Spinner />}
-        <Trans>Upload</Trans>
-      </Button>
+      <div className="flex w-full max-w-3xl flex-row items-end gap-4">
+        <FileInput id="picture" onChange={onSelectFile} label="Picture" />
+        <Button onClick={onUpload} variant="secondary" loading={isPending}>
+          <Trans>Upload</Trans>
+        </Button>
+      </div>
       <p>URL: {data?.url}</p>
       <p>Error: {error?.message}</p>
     </div>

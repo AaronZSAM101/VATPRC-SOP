@@ -12,33 +12,45 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as FlightsRouteImport } from './routes/flights'
 import { Route as EventsRouteImport } from './routes/events'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as UsersIndexRouteImport } from './routes/users/index'
 import { Route as FlightsIndexRouteImport } from './routes/flights/index'
 import { Route as EventsIndexRouteImport } from './routes/events/index'
-import { Route as PilotTs3RouteImport } from './routes/pilot/ts3'
-import { Route as PilotStartToFlyRouteImport } from './routes/pilot/start-to-fly'
-import { Route as PilotPilotSoftwaresRouteImport } from './routes/pilot/pilot-softwares'
-import { Route as PilotIntroductionToFlyRouteImport } from './routes/pilot/introduction-to-fly'
+import { Route as ControllersIndexRouteImport } from './routes/controllers/index'
+import { Route as UsersMeRouteImport } from './routes/users/me'
+import { Route as NavdataPreferredRoutesRouteImport } from './routes/navdata/preferred-routes'
 import { Route as FlightsCallsignRouteImport } from './routes/flights/$callsign'
 import { Route as EventsIdRouteImport } from './routes/events/$id'
 import { Route as DocsSplatRouteImport } from './routes/docs/$'
-import { Route as DivisionStaffRouteImport } from './routes/division/staff'
-import { Route as DivisionPrivacyRouteImport } from './routes/division/privacy'
-import { Route as DivisionMeetingRouteImport } from './routes/division/meeting'
-import { Route as DivisionIntroductionRouteImport } from './routes/division/introduction'
-import { Route as DivisionApiRouteImport } from './routes/division/api'
-import { Route as ControllerVisitingAndTransferringRouteImport } from './routes/controller/visiting-and-transferring'
-import { Route as ControllerSectorRouteImport } from './routes/controller/sector'
-import { Route as ControllerLoaRouteImport } from './routes/controller/loa'
-import { Route as ControllerControllerRegulationsRouteImport } from './routes/controller/controller-regulations'
-import { Route as ControllerControllerListRouteImport } from './routes/controller/controller-list'
-import { Route as ControllerBecomeAControllerRouteImport } from './routes/controller/become-a-controller'
 import { Route as AuthCallbackRouteImport } from './routes/auth/callback'
-import { Route as AirspaceVfrRouteImport } from './routes/airspace/vfr'
-import { Route as AirspaceStationRouteImport } from './routes/airspace/station'
-import { Route as AirspaceSopRouteImport } from './routes/airspace/sop'
-import { Route as AirspaceRvsmRouteImport } from './routes/airspace/rvsm'
-import { Route as AirspaceFirRouteImport } from './routes/airspace/fir'
+import { Route as DocSopRouteImport } from './routes/_doc/sop'
+import { Route as DocLoaRouteImport } from './routes/_doc/loa'
+import { Route as ControllersTrainingsIndexRouteImport } from './routes/controllers/trainings/index'
+import { Route as ControllersApplicationsIndexRouteImport } from './routes/controllers/applications/index'
 import { Route as DocsUtilsImageRouteImport } from './routes/docs/utils/image'
+import { Route as ControllersTrainingsIdRouteImport } from './routes/controllers/trainings/$id'
+import { Route as ControllersApplicationsNewRouteImport } from './routes/controllers/applications/new'
+import { Route as ControllersApplicationsIdRouteImport } from './routes/controllers/applications/$id'
+import { Route as DocPilotTs3RouteImport } from './routes/_doc/pilot/ts3'
+import { Route as DocPilotStartToFlyRouteImport } from './routes/_doc/pilot/start-to-fly'
+import { Route as DocPilotPilotSoftwaresRouteImport } from './routes/_doc/pilot/pilot-softwares'
+import { Route as DocPilotIntroductionToFlyRouteImport } from './routes/_doc/pilot/introduction-to-fly'
+import { Route as DocDivisionStaffRouteImport } from './routes/_doc/division/staff'
+import { Route as DocDivisionPrivacyRouteImport } from './routes/_doc/division/privacy'
+import { Route as DocDivisionMeetingRouteImport } from './routes/_doc/division/meeting'
+import { Route as DocDivisionIntroductionRouteImport } from './routes/_doc/division/introduction'
+import { Route as DocDivisionApiRouteImport } from './routes/_doc/division/api'
+import { Route as DocControllerVisitingAndTransferringRouteImport } from './routes/_doc/controller/visiting-and-transferring'
+import { Route as DocControllerSectorRouteImport } from './routes/_doc/controller/sector'
+import { Route as DocControllerLoaRouteImport } from './routes/_doc/controller/loa'
+import { Route as DocControllerControllerRegulationsRouteImport } from './routes/_doc/controller/controller-regulations'
+import { Route as DocControllerControllerListRouteImport } from './routes/_doc/controller/controller-list'
+import { Route as DocControllerBecomeAControllerRouteImport } from './routes/_doc/controller/become-a-controller'
+import { Route as DocAirspaceVfrRouteImport } from './routes/_doc/airspace/vfr'
+import { Route as DocAirspaceStationRouteImport } from './routes/_doc/airspace/station'
+import { Route as DocAirspaceSopRouteImport } from './routes/_doc/airspace/sop'
+import { Route as DocAirspaceRvsmRouteImport } from './routes/_doc/airspace/rvsm'
+import { Route as DocAirspaceRestrictedRouteImport } from './routes/_doc/airspace/restricted'
+import { Route as DocAirspaceFirRouteImport } from './routes/_doc/airspace/fir'
 
 const FlightsRoute = FlightsRouteImport.update({
   id: '/flights',
@@ -55,6 +67,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const UsersIndexRoute = UsersIndexRouteImport.update({
+  id: '/users/',
+  path: '/users/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FlightsIndexRoute = FlightsIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -65,24 +82,19 @@ const EventsIndexRoute = EventsIndexRouteImport.update({
   path: '/',
   getParentRoute: () => EventsRoute,
 } as any)
-const PilotTs3Route = PilotTs3RouteImport.update({
-  id: '/pilot/ts3',
-  path: '/pilot/ts3',
+const ControllersIndexRoute = ControllersIndexRouteImport.update({
+  id: '/controllers/',
+  path: '/controllers/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PilotStartToFlyRoute = PilotStartToFlyRouteImport.update({
-  id: '/pilot/start-to-fly',
-  path: '/pilot/start-to-fly',
+const UsersMeRoute = UsersMeRouteImport.update({
+  id: '/users/me',
+  path: '/users/me',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PilotPilotSoftwaresRoute = PilotPilotSoftwaresRouteImport.update({
-  id: '/pilot/pilot-softwares',
-  path: '/pilot/pilot-softwares',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PilotIntroductionToFlyRoute = PilotIntroductionToFlyRouteImport.update({
-  id: '/pilot/introduction-to-fly',
-  path: '/pilot/introduction-to-fly',
+const NavdataPreferredRoutesRoute = NavdataPreferredRoutesRouteImport.update({
+  id: '/navdata/preferred-routes',
+  path: '/navdata/preferred-routes',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FlightsCallsignRoute = FlightsCallsignRouteImport.update({
@@ -100,98 +112,163 @@ const DocsSplatRoute = DocsSplatRouteImport.update({
   path: '/docs/$',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DivisionStaffRoute = DivisionStaffRouteImport.update({
-  id: '/division/staff',
-  path: '/division/staff',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DivisionPrivacyRoute = DivisionPrivacyRouteImport.update({
-  id: '/division/privacy',
-  path: '/division/privacy',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DivisionMeetingRoute = DivisionMeetingRouteImport.update({
-  id: '/division/meeting',
-  path: '/division/meeting',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DivisionIntroductionRoute = DivisionIntroductionRouteImport.update({
-  id: '/division/introduction',
-  path: '/division/introduction',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DivisionApiRoute = DivisionApiRouteImport.update({
-  id: '/division/api',
-  path: '/division/api',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ControllerVisitingAndTransferringRoute =
-  ControllerVisitingAndTransferringRouteImport.update({
-    id: '/controller/visiting-and-transferring',
-    path: '/controller/visiting-and-transferring',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const ControllerSectorRoute = ControllerSectorRouteImport.update({
-  id: '/controller/sector',
-  path: '/controller/sector',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ControllerLoaRoute = ControllerLoaRouteImport.update({
-  id: '/controller/loa',
-  path: '/controller/loa',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ControllerControllerRegulationsRoute =
-  ControllerControllerRegulationsRouteImport.update({
-    id: '/controller/controller-regulations',
-    path: '/controller/controller-regulations',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const ControllerControllerListRoute =
-  ControllerControllerListRouteImport.update({
-    id: '/controller/controller-list',
-    path: '/controller/controller-list',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const ControllerBecomeAControllerRoute =
-  ControllerBecomeAControllerRouteImport.update({
-    id: '/controller/become-a-controller',
-    path: '/controller/become-a-controller',
-    getParentRoute: () => rootRouteImport,
-  } as any)
 const AuthCallbackRoute = AuthCallbackRouteImport.update({
   id: '/auth/callback',
   path: '/auth/callback',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AirspaceVfrRoute = AirspaceVfrRouteImport.update({
-  id: '/airspace/vfr',
-  path: '/airspace/vfr',
+const DocSopRoute = DocSopRouteImport.update({
+  id: '/_doc/sop',
+  path: '/sop',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AirspaceStationRoute = AirspaceStationRouteImport.update({
-  id: '/airspace/station',
-  path: '/airspace/station',
+const DocLoaRoute = DocLoaRouteImport.update({
+  id: '/_doc/loa',
+  path: '/loa',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AirspaceSopRoute = AirspaceSopRouteImport.update({
-  id: '/airspace/sop',
-  path: '/airspace/sop',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AirspaceRvsmRoute = AirspaceRvsmRouteImport.update({
-  id: '/airspace/rvsm',
-  path: '/airspace/rvsm',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AirspaceFirRoute = AirspaceFirRouteImport.update({
-  id: '/airspace/fir',
-  path: '/airspace/fir',
-  getParentRoute: () => rootRouteImport,
-} as any)
+const ControllersTrainingsIndexRoute =
+  ControllersTrainingsIndexRouteImport.update({
+    id: '/controllers/trainings/',
+    path: '/controllers/trainings/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ControllersApplicationsIndexRoute =
+  ControllersApplicationsIndexRouteImport.update({
+    id: '/controllers/applications/',
+    path: '/controllers/applications/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const DocsUtilsImageRoute = DocsUtilsImageRouteImport.update({
   id: '/docs/utils/image',
   path: '/docs/utils/image',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ControllersTrainingsIdRoute = ControllersTrainingsIdRouteImport.update({
+  id: '/controllers/trainings/$id',
+  path: '/controllers/trainings/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ControllersApplicationsNewRoute =
+  ControllersApplicationsNewRouteImport.update({
+    id: '/controllers/applications/new',
+    path: '/controllers/applications/new',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ControllersApplicationsIdRoute =
+  ControllersApplicationsIdRouteImport.update({
+    id: '/controllers/applications/$id',
+    path: '/controllers/applications/$id',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const DocPilotTs3Route = DocPilotTs3RouteImport.update({
+  id: '/_doc/pilot/ts3',
+  path: '/pilot/ts3',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DocPilotStartToFlyRoute = DocPilotStartToFlyRouteImport.update({
+  id: '/_doc/pilot/start-to-fly',
+  path: '/pilot/start-to-fly',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DocPilotPilotSoftwaresRoute = DocPilotPilotSoftwaresRouteImport.update({
+  id: '/_doc/pilot/pilot-softwares',
+  path: '/pilot/pilot-softwares',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DocPilotIntroductionToFlyRoute =
+  DocPilotIntroductionToFlyRouteImport.update({
+    id: '/_doc/pilot/introduction-to-fly',
+    path: '/pilot/introduction-to-fly',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const DocDivisionStaffRoute = DocDivisionStaffRouteImport.update({
+  id: '/_doc/division/staff',
+  path: '/division/staff',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DocDivisionPrivacyRoute = DocDivisionPrivacyRouteImport.update({
+  id: '/_doc/division/privacy',
+  path: '/division/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DocDivisionMeetingRoute = DocDivisionMeetingRouteImport.update({
+  id: '/_doc/division/meeting',
+  path: '/division/meeting',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DocDivisionIntroductionRoute = DocDivisionIntroductionRouteImport.update({
+  id: '/_doc/division/introduction',
+  path: '/division/introduction',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DocDivisionApiRoute = DocDivisionApiRouteImport.update({
+  id: '/_doc/division/api',
+  path: '/division/api',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DocControllerVisitingAndTransferringRoute =
+  DocControllerVisitingAndTransferringRouteImport.update({
+    id: '/_doc/controller/visiting-and-transferring',
+    path: '/controller/visiting-and-transferring',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const DocControllerSectorRoute = DocControllerSectorRouteImport.update({
+  id: '/_doc/controller/sector',
+  path: '/controller/sector',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DocControllerLoaRoute = DocControllerLoaRouteImport.update({
+  id: '/_doc/controller/loa',
+  path: '/controller/loa',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DocControllerControllerRegulationsRoute =
+  DocControllerControllerRegulationsRouteImport.update({
+    id: '/_doc/controller/controller-regulations',
+    path: '/controller/controller-regulations',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const DocControllerControllerListRoute =
+  DocControllerControllerListRouteImport.update({
+    id: '/_doc/controller/controller-list',
+    path: '/controller/controller-list',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const DocControllerBecomeAControllerRoute =
+  DocControllerBecomeAControllerRouteImport.update({
+    id: '/_doc/controller/become-a-controller',
+    path: '/controller/become-a-controller',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const DocAirspaceVfrRoute = DocAirspaceVfrRouteImport.update({
+  id: '/_doc/airspace/vfr',
+  path: '/airspace/vfr',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DocAirspaceStationRoute = DocAirspaceStationRouteImport.update({
+  id: '/_doc/airspace/station',
+  path: '/airspace/station',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DocAirspaceSopRoute = DocAirspaceSopRouteImport.update({
+  id: '/_doc/airspace/sop',
+  path: '/airspace/sop',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DocAirspaceRvsmRoute = DocAirspaceRvsmRouteImport.update({
+  id: '/_doc/airspace/rvsm',
+  path: '/airspace/rvsm',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DocAirspaceRestrictedRoute = DocAirspaceRestrictedRouteImport.update({
+  id: '/_doc/airspace/restricted',
+  path: '/airspace/restricted',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DocAirspaceFirRoute = DocAirspaceFirRouteImport.update({
+  id: '/_doc/airspace/fir',
+  path: '/airspace/fir',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -199,96 +276,132 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/events': typeof EventsRouteWithChildren
   '/flights': typeof FlightsRouteWithChildren
-  '/airspace/fir': typeof AirspaceFirRoute
-  '/airspace/rvsm': typeof AirspaceRvsmRoute
-  '/airspace/sop': typeof AirspaceSopRoute
-  '/airspace/station': typeof AirspaceStationRoute
-  '/airspace/vfr': typeof AirspaceVfrRoute
+  '/loa': typeof DocLoaRoute
+  '/sop': typeof DocSopRoute
   '/auth/callback': typeof AuthCallbackRoute
-  '/controller/become-a-controller': typeof ControllerBecomeAControllerRoute
-  '/controller/controller-list': typeof ControllerControllerListRoute
-  '/controller/controller-regulations': typeof ControllerControllerRegulationsRoute
-  '/controller/loa': typeof ControllerLoaRoute
-  '/controller/sector': typeof ControllerSectorRoute
-  '/controller/visiting-and-transferring': typeof ControllerVisitingAndTransferringRoute
-  '/division/api': typeof DivisionApiRoute
-  '/division/introduction': typeof DivisionIntroductionRoute
-  '/division/meeting': typeof DivisionMeetingRoute
-  '/division/privacy': typeof DivisionPrivacyRoute
-  '/division/staff': typeof DivisionStaffRoute
   '/docs/$': typeof DocsSplatRoute
   '/events/$id': typeof EventsIdRoute
   '/flights/$callsign': typeof FlightsCallsignRoute
-  '/pilot/introduction-to-fly': typeof PilotIntroductionToFlyRoute
-  '/pilot/pilot-softwares': typeof PilotPilotSoftwaresRoute
-  '/pilot/start-to-fly': typeof PilotStartToFlyRoute
-  '/pilot/ts3': typeof PilotTs3Route
+  '/navdata/preferred-routes': typeof NavdataPreferredRoutesRoute
+  '/users/me': typeof UsersMeRoute
+  '/controllers': typeof ControllersIndexRoute
   '/events/': typeof EventsIndexRoute
   '/flights/': typeof FlightsIndexRoute
+  '/users': typeof UsersIndexRoute
+  '/airspace/fir': typeof DocAirspaceFirRoute
+  '/airspace/restricted': typeof DocAirspaceRestrictedRoute
+  '/airspace/rvsm': typeof DocAirspaceRvsmRoute
+  '/airspace/sop': typeof DocAirspaceSopRoute
+  '/airspace/station': typeof DocAirspaceStationRoute
+  '/airspace/vfr': typeof DocAirspaceVfrRoute
+  '/controller/become-a-controller': typeof DocControllerBecomeAControllerRoute
+  '/controller/controller-list': typeof DocControllerControllerListRoute
+  '/controller/controller-regulations': typeof DocControllerControllerRegulationsRoute
+  '/controller/loa': typeof DocControllerLoaRoute
+  '/controller/sector': typeof DocControllerSectorRoute
+  '/controller/visiting-and-transferring': typeof DocControllerVisitingAndTransferringRoute
+  '/division/api': typeof DocDivisionApiRoute
+  '/division/introduction': typeof DocDivisionIntroductionRoute
+  '/division/meeting': typeof DocDivisionMeetingRoute
+  '/division/privacy': typeof DocDivisionPrivacyRoute
+  '/division/staff': typeof DocDivisionStaffRoute
+  '/pilot/introduction-to-fly': typeof DocPilotIntroductionToFlyRoute
+  '/pilot/pilot-softwares': typeof DocPilotPilotSoftwaresRoute
+  '/pilot/start-to-fly': typeof DocPilotStartToFlyRoute
+  '/pilot/ts3': typeof DocPilotTs3Route
+  '/controllers/applications/$id': typeof ControllersApplicationsIdRoute
+  '/controllers/applications/new': typeof ControllersApplicationsNewRoute
+  '/controllers/trainings/$id': typeof ControllersTrainingsIdRoute
   '/docs/utils/image': typeof DocsUtilsImageRoute
+  '/controllers/applications': typeof ControllersApplicationsIndexRoute
+  '/controllers/trainings': typeof ControllersTrainingsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/airspace/fir': typeof AirspaceFirRoute
-  '/airspace/rvsm': typeof AirspaceRvsmRoute
-  '/airspace/sop': typeof AirspaceSopRoute
-  '/airspace/station': typeof AirspaceStationRoute
-  '/airspace/vfr': typeof AirspaceVfrRoute
+  '/loa': typeof DocLoaRoute
+  '/sop': typeof DocSopRoute
   '/auth/callback': typeof AuthCallbackRoute
-  '/controller/become-a-controller': typeof ControllerBecomeAControllerRoute
-  '/controller/controller-list': typeof ControllerControllerListRoute
-  '/controller/controller-regulations': typeof ControllerControllerRegulationsRoute
-  '/controller/loa': typeof ControllerLoaRoute
-  '/controller/sector': typeof ControllerSectorRoute
-  '/controller/visiting-and-transferring': typeof ControllerVisitingAndTransferringRoute
-  '/division/api': typeof DivisionApiRoute
-  '/division/introduction': typeof DivisionIntroductionRoute
-  '/division/meeting': typeof DivisionMeetingRoute
-  '/division/privacy': typeof DivisionPrivacyRoute
-  '/division/staff': typeof DivisionStaffRoute
   '/docs/$': typeof DocsSplatRoute
   '/events/$id': typeof EventsIdRoute
   '/flights/$callsign': typeof FlightsCallsignRoute
-  '/pilot/introduction-to-fly': typeof PilotIntroductionToFlyRoute
-  '/pilot/pilot-softwares': typeof PilotPilotSoftwaresRoute
-  '/pilot/start-to-fly': typeof PilotStartToFlyRoute
-  '/pilot/ts3': typeof PilotTs3Route
+  '/navdata/preferred-routes': typeof NavdataPreferredRoutesRoute
+  '/users/me': typeof UsersMeRoute
+  '/controllers': typeof ControllersIndexRoute
   '/events': typeof EventsIndexRoute
   '/flights': typeof FlightsIndexRoute
+  '/users': typeof UsersIndexRoute
+  '/airspace/fir': typeof DocAirspaceFirRoute
+  '/airspace/restricted': typeof DocAirspaceRestrictedRoute
+  '/airspace/rvsm': typeof DocAirspaceRvsmRoute
+  '/airspace/sop': typeof DocAirspaceSopRoute
+  '/airspace/station': typeof DocAirspaceStationRoute
+  '/airspace/vfr': typeof DocAirspaceVfrRoute
+  '/controller/become-a-controller': typeof DocControllerBecomeAControllerRoute
+  '/controller/controller-list': typeof DocControllerControllerListRoute
+  '/controller/controller-regulations': typeof DocControllerControllerRegulationsRoute
+  '/controller/loa': typeof DocControllerLoaRoute
+  '/controller/sector': typeof DocControllerSectorRoute
+  '/controller/visiting-and-transferring': typeof DocControllerVisitingAndTransferringRoute
+  '/division/api': typeof DocDivisionApiRoute
+  '/division/introduction': typeof DocDivisionIntroductionRoute
+  '/division/meeting': typeof DocDivisionMeetingRoute
+  '/division/privacy': typeof DocDivisionPrivacyRoute
+  '/division/staff': typeof DocDivisionStaffRoute
+  '/pilot/introduction-to-fly': typeof DocPilotIntroductionToFlyRoute
+  '/pilot/pilot-softwares': typeof DocPilotPilotSoftwaresRoute
+  '/pilot/start-to-fly': typeof DocPilotStartToFlyRoute
+  '/pilot/ts3': typeof DocPilotTs3Route
+  '/controllers/applications/$id': typeof ControllersApplicationsIdRoute
+  '/controllers/applications/new': typeof ControllersApplicationsNewRoute
+  '/controllers/trainings/$id': typeof ControllersTrainingsIdRoute
   '/docs/utils/image': typeof DocsUtilsImageRoute
+  '/controllers/applications': typeof ControllersApplicationsIndexRoute
+  '/controllers/trainings': typeof ControllersTrainingsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/events': typeof EventsRouteWithChildren
   '/flights': typeof FlightsRouteWithChildren
-  '/airspace/fir': typeof AirspaceFirRoute
-  '/airspace/rvsm': typeof AirspaceRvsmRoute
-  '/airspace/sop': typeof AirspaceSopRoute
-  '/airspace/station': typeof AirspaceStationRoute
-  '/airspace/vfr': typeof AirspaceVfrRoute
+  '/_doc/loa': typeof DocLoaRoute
+  '/_doc/sop': typeof DocSopRoute
   '/auth/callback': typeof AuthCallbackRoute
-  '/controller/become-a-controller': typeof ControllerBecomeAControllerRoute
-  '/controller/controller-list': typeof ControllerControllerListRoute
-  '/controller/controller-regulations': typeof ControllerControllerRegulationsRoute
-  '/controller/loa': typeof ControllerLoaRoute
-  '/controller/sector': typeof ControllerSectorRoute
-  '/controller/visiting-and-transferring': typeof ControllerVisitingAndTransferringRoute
-  '/division/api': typeof DivisionApiRoute
-  '/division/introduction': typeof DivisionIntroductionRoute
-  '/division/meeting': typeof DivisionMeetingRoute
-  '/division/privacy': typeof DivisionPrivacyRoute
-  '/division/staff': typeof DivisionStaffRoute
   '/docs/$': typeof DocsSplatRoute
   '/events/$id': typeof EventsIdRoute
   '/flights/$callsign': typeof FlightsCallsignRoute
-  '/pilot/introduction-to-fly': typeof PilotIntroductionToFlyRoute
-  '/pilot/pilot-softwares': typeof PilotPilotSoftwaresRoute
-  '/pilot/start-to-fly': typeof PilotStartToFlyRoute
-  '/pilot/ts3': typeof PilotTs3Route
+  '/navdata/preferred-routes': typeof NavdataPreferredRoutesRoute
+  '/users/me': typeof UsersMeRoute
+  '/controllers/': typeof ControllersIndexRoute
   '/events/': typeof EventsIndexRoute
   '/flights/': typeof FlightsIndexRoute
+  '/users/': typeof UsersIndexRoute
+  '/_doc/airspace/fir': typeof DocAirspaceFirRoute
+  '/_doc/airspace/restricted': typeof DocAirspaceRestrictedRoute
+  '/_doc/airspace/rvsm': typeof DocAirspaceRvsmRoute
+  '/_doc/airspace/sop': typeof DocAirspaceSopRoute
+  '/_doc/airspace/station': typeof DocAirspaceStationRoute
+  '/_doc/airspace/vfr': typeof DocAirspaceVfrRoute
+  '/_doc/controller/become-a-controller': typeof DocControllerBecomeAControllerRoute
+  '/_doc/controller/controller-list': typeof DocControllerControllerListRoute
+  '/_doc/controller/controller-regulations': typeof DocControllerControllerRegulationsRoute
+  '/_doc/controller/loa': typeof DocControllerLoaRoute
+  '/_doc/controller/sector': typeof DocControllerSectorRoute
+  '/_doc/controller/visiting-and-transferring': typeof DocControllerVisitingAndTransferringRoute
+  '/_doc/division/api': typeof DocDivisionApiRoute
+  '/_doc/division/introduction': typeof DocDivisionIntroductionRoute
+  '/_doc/division/meeting': typeof DocDivisionMeetingRoute
+  '/_doc/division/privacy': typeof DocDivisionPrivacyRoute
+  '/_doc/division/staff': typeof DocDivisionStaffRoute
+  '/_doc/pilot/introduction-to-fly': typeof DocPilotIntroductionToFlyRoute
+  '/_doc/pilot/pilot-softwares': typeof DocPilotPilotSoftwaresRoute
+  '/_doc/pilot/start-to-fly': typeof DocPilotStartToFlyRoute
+  '/_doc/pilot/ts3': typeof DocPilotTs3Route
+  '/controllers/applications/$id': typeof ControllersApplicationsIdRoute
+  '/controllers/applications/new': typeof ControllersApplicationsNewRoute
+  '/controllers/trainings/$id': typeof ControllersTrainingsIdRoute
   '/docs/utils/image': typeof DocsUtilsImageRoute
+  '/controllers/applications/': typeof ControllersApplicationsIndexRoute
+  '/controllers/trainings/': typeof ControllersTrainingsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -296,12 +409,24 @@ export interface FileRouteTypes {
     | '/'
     | '/events'
     | '/flights'
+    | '/loa'
+    | '/sop'
+    | '/auth/callback'
+    | '/docs/$'
+    | '/events/$id'
+    | '/flights/$callsign'
+    | '/navdata/preferred-routes'
+    | '/users/me'
+    | '/controllers'
+    | '/events/'
+    | '/flights/'
+    | '/users'
     | '/airspace/fir'
+    | '/airspace/restricted'
     | '/airspace/rvsm'
     | '/airspace/sop'
     | '/airspace/station'
     | '/airspace/vfr'
-    | '/auth/callback'
     | '/controller/become-a-controller'
     | '/controller/controller-list'
     | '/controller/controller-regulations'
@@ -313,25 +438,37 @@ export interface FileRouteTypes {
     | '/division/meeting'
     | '/division/privacy'
     | '/division/staff'
-    | '/docs/$'
-    | '/events/$id'
-    | '/flights/$callsign'
     | '/pilot/introduction-to-fly'
     | '/pilot/pilot-softwares'
     | '/pilot/start-to-fly'
     | '/pilot/ts3'
-    | '/events/'
-    | '/flights/'
+    | '/controllers/applications/$id'
+    | '/controllers/applications/new'
+    | '/controllers/trainings/$id'
     | '/docs/utils/image'
+    | '/controllers/applications'
+    | '/controllers/trainings'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/loa'
+    | '/sop'
+    | '/auth/callback'
+    | '/docs/$'
+    | '/events/$id'
+    | '/flights/$callsign'
+    | '/navdata/preferred-routes'
+    | '/users/me'
+    | '/controllers'
+    | '/events'
+    | '/flights'
+    | '/users'
     | '/airspace/fir'
+    | '/airspace/restricted'
     | '/airspace/rvsm'
     | '/airspace/sop'
     | '/airspace/station'
     | '/airspace/vfr'
-    | '/auth/callback'
     | '/controller/become-a-controller'
     | '/controller/controller-list'
     | '/controller/controller-regulations'
@@ -343,77 +480,101 @@ export interface FileRouteTypes {
     | '/division/meeting'
     | '/division/privacy'
     | '/division/staff'
-    | '/docs/$'
-    | '/events/$id'
-    | '/flights/$callsign'
     | '/pilot/introduction-to-fly'
     | '/pilot/pilot-softwares'
     | '/pilot/start-to-fly'
     | '/pilot/ts3'
-    | '/events'
-    | '/flights'
+    | '/controllers/applications/$id'
+    | '/controllers/applications/new'
+    | '/controllers/trainings/$id'
     | '/docs/utils/image'
+    | '/controllers/applications'
+    | '/controllers/trainings'
   id:
     | '__root__'
     | '/'
     | '/events'
     | '/flights'
-    | '/airspace/fir'
-    | '/airspace/rvsm'
-    | '/airspace/sop'
-    | '/airspace/station'
-    | '/airspace/vfr'
+    | '/_doc/loa'
+    | '/_doc/sop'
     | '/auth/callback'
-    | '/controller/become-a-controller'
-    | '/controller/controller-list'
-    | '/controller/controller-regulations'
-    | '/controller/loa'
-    | '/controller/sector'
-    | '/controller/visiting-and-transferring'
-    | '/division/api'
-    | '/division/introduction'
-    | '/division/meeting'
-    | '/division/privacy'
-    | '/division/staff'
     | '/docs/$'
     | '/events/$id'
     | '/flights/$callsign'
-    | '/pilot/introduction-to-fly'
-    | '/pilot/pilot-softwares'
-    | '/pilot/start-to-fly'
-    | '/pilot/ts3'
+    | '/navdata/preferred-routes'
+    | '/users/me'
+    | '/controllers/'
     | '/events/'
     | '/flights/'
+    | '/users/'
+    | '/_doc/airspace/fir'
+    | '/_doc/airspace/restricted'
+    | '/_doc/airspace/rvsm'
+    | '/_doc/airspace/sop'
+    | '/_doc/airspace/station'
+    | '/_doc/airspace/vfr'
+    | '/_doc/controller/become-a-controller'
+    | '/_doc/controller/controller-list'
+    | '/_doc/controller/controller-regulations'
+    | '/_doc/controller/loa'
+    | '/_doc/controller/sector'
+    | '/_doc/controller/visiting-and-transferring'
+    | '/_doc/division/api'
+    | '/_doc/division/introduction'
+    | '/_doc/division/meeting'
+    | '/_doc/division/privacy'
+    | '/_doc/division/staff'
+    | '/_doc/pilot/introduction-to-fly'
+    | '/_doc/pilot/pilot-softwares'
+    | '/_doc/pilot/start-to-fly'
+    | '/_doc/pilot/ts3'
+    | '/controllers/applications/$id'
+    | '/controllers/applications/new'
+    | '/controllers/trainings/$id'
     | '/docs/utils/image'
+    | '/controllers/applications/'
+    | '/controllers/trainings/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   EventsRoute: typeof EventsRouteWithChildren
   FlightsRoute: typeof FlightsRouteWithChildren
-  AirspaceFirRoute: typeof AirspaceFirRoute
-  AirspaceRvsmRoute: typeof AirspaceRvsmRoute
-  AirspaceSopRoute: typeof AirspaceSopRoute
-  AirspaceStationRoute: typeof AirspaceStationRoute
-  AirspaceVfrRoute: typeof AirspaceVfrRoute
+  DocLoaRoute: typeof DocLoaRoute
+  DocSopRoute: typeof DocSopRoute
   AuthCallbackRoute: typeof AuthCallbackRoute
-  ControllerBecomeAControllerRoute: typeof ControllerBecomeAControllerRoute
-  ControllerControllerListRoute: typeof ControllerControllerListRoute
-  ControllerControllerRegulationsRoute: typeof ControllerControllerRegulationsRoute
-  ControllerLoaRoute: typeof ControllerLoaRoute
-  ControllerSectorRoute: typeof ControllerSectorRoute
-  ControllerVisitingAndTransferringRoute: typeof ControllerVisitingAndTransferringRoute
-  DivisionApiRoute: typeof DivisionApiRoute
-  DivisionIntroductionRoute: typeof DivisionIntroductionRoute
-  DivisionMeetingRoute: typeof DivisionMeetingRoute
-  DivisionPrivacyRoute: typeof DivisionPrivacyRoute
-  DivisionStaffRoute: typeof DivisionStaffRoute
   DocsSplatRoute: typeof DocsSplatRoute
-  PilotIntroductionToFlyRoute: typeof PilotIntroductionToFlyRoute
-  PilotPilotSoftwaresRoute: typeof PilotPilotSoftwaresRoute
-  PilotStartToFlyRoute: typeof PilotStartToFlyRoute
-  PilotTs3Route: typeof PilotTs3Route
+  NavdataPreferredRoutesRoute: typeof NavdataPreferredRoutesRoute
+  UsersMeRoute: typeof UsersMeRoute
+  ControllersIndexRoute: typeof ControllersIndexRoute
+  UsersIndexRoute: typeof UsersIndexRoute
+  DocAirspaceFirRoute: typeof DocAirspaceFirRoute
+  DocAirspaceRestrictedRoute: typeof DocAirspaceRestrictedRoute
+  DocAirspaceRvsmRoute: typeof DocAirspaceRvsmRoute
+  DocAirspaceSopRoute: typeof DocAirspaceSopRoute
+  DocAirspaceStationRoute: typeof DocAirspaceStationRoute
+  DocAirspaceVfrRoute: typeof DocAirspaceVfrRoute
+  DocControllerBecomeAControllerRoute: typeof DocControllerBecomeAControllerRoute
+  DocControllerControllerListRoute: typeof DocControllerControllerListRoute
+  DocControllerControllerRegulationsRoute: typeof DocControllerControllerRegulationsRoute
+  DocControllerLoaRoute: typeof DocControllerLoaRoute
+  DocControllerSectorRoute: typeof DocControllerSectorRoute
+  DocControllerVisitingAndTransferringRoute: typeof DocControllerVisitingAndTransferringRoute
+  DocDivisionApiRoute: typeof DocDivisionApiRoute
+  DocDivisionIntroductionRoute: typeof DocDivisionIntroductionRoute
+  DocDivisionMeetingRoute: typeof DocDivisionMeetingRoute
+  DocDivisionPrivacyRoute: typeof DocDivisionPrivacyRoute
+  DocDivisionStaffRoute: typeof DocDivisionStaffRoute
+  DocPilotIntroductionToFlyRoute: typeof DocPilotIntroductionToFlyRoute
+  DocPilotPilotSoftwaresRoute: typeof DocPilotPilotSoftwaresRoute
+  DocPilotStartToFlyRoute: typeof DocPilotStartToFlyRoute
+  DocPilotTs3Route: typeof DocPilotTs3Route
+  ControllersApplicationsIdRoute: typeof ControllersApplicationsIdRoute
+  ControllersApplicationsNewRoute: typeof ControllersApplicationsNewRoute
+  ControllersTrainingsIdRoute: typeof ControllersTrainingsIdRoute
   DocsUtilsImageRoute: typeof DocsUtilsImageRoute
+  ControllersApplicationsIndexRoute: typeof ControllersApplicationsIndexRoute
+  ControllersTrainingsIndexRoute: typeof ControllersTrainingsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -439,6 +600,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/users/': {
+      id: '/users/'
+      path: '/users'
+      fullPath: '/users'
+      preLoaderRoute: typeof UsersIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/flights/': {
       id: '/flights/'
       path: '/'
@@ -453,32 +621,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EventsIndexRouteImport
       parentRoute: typeof EventsRoute
     }
-    '/pilot/ts3': {
-      id: '/pilot/ts3'
-      path: '/pilot/ts3'
-      fullPath: '/pilot/ts3'
-      preLoaderRoute: typeof PilotTs3RouteImport
+    '/controllers/': {
+      id: '/controllers/'
+      path: '/controllers'
+      fullPath: '/controllers'
+      preLoaderRoute: typeof ControllersIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/pilot/start-to-fly': {
-      id: '/pilot/start-to-fly'
-      path: '/pilot/start-to-fly'
-      fullPath: '/pilot/start-to-fly'
-      preLoaderRoute: typeof PilotStartToFlyRouteImport
+    '/users/me': {
+      id: '/users/me'
+      path: '/users/me'
+      fullPath: '/users/me'
+      preLoaderRoute: typeof UsersMeRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/pilot/pilot-softwares': {
-      id: '/pilot/pilot-softwares'
-      path: '/pilot/pilot-softwares'
-      fullPath: '/pilot/pilot-softwares'
-      preLoaderRoute: typeof PilotPilotSoftwaresRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/pilot/introduction-to-fly': {
-      id: '/pilot/introduction-to-fly'
-      path: '/pilot/introduction-to-fly'
-      fullPath: '/pilot/introduction-to-fly'
-      preLoaderRoute: typeof PilotIntroductionToFlyRouteImport
+    '/navdata/preferred-routes': {
+      id: '/navdata/preferred-routes'
+      path: '/navdata/preferred-routes'
+      fullPath: '/navdata/preferred-routes'
+      preLoaderRoute: typeof NavdataPreferredRoutesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/flights/$callsign': {
@@ -502,83 +663,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DocsSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/division/staff': {
-      id: '/division/staff'
-      path: '/division/staff'
-      fullPath: '/division/staff'
-      preLoaderRoute: typeof DivisionStaffRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/division/privacy': {
-      id: '/division/privacy'
-      path: '/division/privacy'
-      fullPath: '/division/privacy'
-      preLoaderRoute: typeof DivisionPrivacyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/division/meeting': {
-      id: '/division/meeting'
-      path: '/division/meeting'
-      fullPath: '/division/meeting'
-      preLoaderRoute: typeof DivisionMeetingRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/division/introduction': {
-      id: '/division/introduction'
-      path: '/division/introduction'
-      fullPath: '/division/introduction'
-      preLoaderRoute: typeof DivisionIntroductionRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/division/api': {
-      id: '/division/api'
-      path: '/division/api'
-      fullPath: '/division/api'
-      preLoaderRoute: typeof DivisionApiRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/controller/visiting-and-transferring': {
-      id: '/controller/visiting-and-transferring'
-      path: '/controller/visiting-and-transferring'
-      fullPath: '/controller/visiting-and-transferring'
-      preLoaderRoute: typeof ControllerVisitingAndTransferringRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/controller/sector': {
-      id: '/controller/sector'
-      path: '/controller/sector'
-      fullPath: '/controller/sector'
-      preLoaderRoute: typeof ControllerSectorRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/controller/loa': {
-      id: '/controller/loa'
-      path: '/controller/loa'
-      fullPath: '/controller/loa'
-      preLoaderRoute: typeof ControllerLoaRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/controller/controller-regulations': {
-      id: '/controller/controller-regulations'
-      path: '/controller/controller-regulations'
-      fullPath: '/controller/controller-regulations'
-      preLoaderRoute: typeof ControllerControllerRegulationsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/controller/controller-list': {
-      id: '/controller/controller-list'
-      path: '/controller/controller-list'
-      fullPath: '/controller/controller-list'
-      preLoaderRoute: typeof ControllerControllerListRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/controller/become-a-controller': {
-      id: '/controller/become-a-controller'
-      path: '/controller/become-a-controller'
-      fullPath: '/controller/become-a-controller'
-      preLoaderRoute: typeof ControllerBecomeAControllerRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/auth/callback': {
       id: '/auth/callback'
       path: '/auth/callback'
@@ -586,39 +670,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthCallbackRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/airspace/vfr': {
-      id: '/airspace/vfr'
-      path: '/airspace/vfr'
-      fullPath: '/airspace/vfr'
-      preLoaderRoute: typeof AirspaceVfrRouteImport
+    '/_doc/sop': {
+      id: '/_doc/sop'
+      path: '/sop'
+      fullPath: '/sop'
+      preLoaderRoute: typeof DocSopRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/airspace/station': {
-      id: '/airspace/station'
-      path: '/airspace/station'
-      fullPath: '/airspace/station'
-      preLoaderRoute: typeof AirspaceStationRouteImport
+    '/_doc/loa': {
+      id: '/_doc/loa'
+      path: '/loa'
+      fullPath: '/loa'
+      preLoaderRoute: typeof DocLoaRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/airspace/sop': {
-      id: '/airspace/sop'
-      path: '/airspace/sop'
-      fullPath: '/airspace/sop'
-      preLoaderRoute: typeof AirspaceSopRouteImport
+    '/controllers/trainings/': {
+      id: '/controllers/trainings/'
+      path: '/controllers/trainings'
+      fullPath: '/controllers/trainings'
+      preLoaderRoute: typeof ControllersTrainingsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/airspace/rvsm': {
-      id: '/airspace/rvsm'
-      path: '/airspace/rvsm'
-      fullPath: '/airspace/rvsm'
-      preLoaderRoute: typeof AirspaceRvsmRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/airspace/fir': {
-      id: '/airspace/fir'
-      path: '/airspace/fir'
-      fullPath: '/airspace/fir'
-      preLoaderRoute: typeof AirspaceFirRouteImport
+    '/controllers/applications/': {
+      id: '/controllers/applications/'
+      path: '/controllers/applications'
+      fullPath: '/controllers/applications'
+      preLoaderRoute: typeof ControllersApplicationsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/docs/utils/image': {
@@ -626,6 +703,174 @@ declare module '@tanstack/react-router' {
       path: '/docs/utils/image'
       fullPath: '/docs/utils/image'
       preLoaderRoute: typeof DocsUtilsImageRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/controllers/trainings/$id': {
+      id: '/controllers/trainings/$id'
+      path: '/controllers/trainings/$id'
+      fullPath: '/controllers/trainings/$id'
+      preLoaderRoute: typeof ControllersTrainingsIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/controllers/applications/new': {
+      id: '/controllers/applications/new'
+      path: '/controllers/applications/new'
+      fullPath: '/controllers/applications/new'
+      preLoaderRoute: typeof ControllersApplicationsNewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/controllers/applications/$id': {
+      id: '/controllers/applications/$id'
+      path: '/controllers/applications/$id'
+      fullPath: '/controllers/applications/$id'
+      preLoaderRoute: typeof ControllersApplicationsIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_doc/pilot/ts3': {
+      id: '/_doc/pilot/ts3'
+      path: '/pilot/ts3'
+      fullPath: '/pilot/ts3'
+      preLoaderRoute: typeof DocPilotTs3RouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_doc/pilot/start-to-fly': {
+      id: '/_doc/pilot/start-to-fly'
+      path: '/pilot/start-to-fly'
+      fullPath: '/pilot/start-to-fly'
+      preLoaderRoute: typeof DocPilotStartToFlyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_doc/pilot/pilot-softwares': {
+      id: '/_doc/pilot/pilot-softwares'
+      path: '/pilot/pilot-softwares'
+      fullPath: '/pilot/pilot-softwares'
+      preLoaderRoute: typeof DocPilotPilotSoftwaresRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_doc/pilot/introduction-to-fly': {
+      id: '/_doc/pilot/introduction-to-fly'
+      path: '/pilot/introduction-to-fly'
+      fullPath: '/pilot/introduction-to-fly'
+      preLoaderRoute: typeof DocPilotIntroductionToFlyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_doc/division/staff': {
+      id: '/_doc/division/staff'
+      path: '/division/staff'
+      fullPath: '/division/staff'
+      preLoaderRoute: typeof DocDivisionStaffRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_doc/division/privacy': {
+      id: '/_doc/division/privacy'
+      path: '/division/privacy'
+      fullPath: '/division/privacy'
+      preLoaderRoute: typeof DocDivisionPrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_doc/division/meeting': {
+      id: '/_doc/division/meeting'
+      path: '/division/meeting'
+      fullPath: '/division/meeting'
+      preLoaderRoute: typeof DocDivisionMeetingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_doc/division/introduction': {
+      id: '/_doc/division/introduction'
+      path: '/division/introduction'
+      fullPath: '/division/introduction'
+      preLoaderRoute: typeof DocDivisionIntroductionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_doc/division/api': {
+      id: '/_doc/division/api'
+      path: '/division/api'
+      fullPath: '/division/api'
+      preLoaderRoute: typeof DocDivisionApiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_doc/controller/visiting-and-transferring': {
+      id: '/_doc/controller/visiting-and-transferring'
+      path: '/controller/visiting-and-transferring'
+      fullPath: '/controller/visiting-and-transferring'
+      preLoaderRoute: typeof DocControllerVisitingAndTransferringRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_doc/controller/sector': {
+      id: '/_doc/controller/sector'
+      path: '/controller/sector'
+      fullPath: '/controller/sector'
+      preLoaderRoute: typeof DocControllerSectorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_doc/controller/loa': {
+      id: '/_doc/controller/loa'
+      path: '/controller/loa'
+      fullPath: '/controller/loa'
+      preLoaderRoute: typeof DocControllerLoaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_doc/controller/controller-regulations': {
+      id: '/_doc/controller/controller-regulations'
+      path: '/controller/controller-regulations'
+      fullPath: '/controller/controller-regulations'
+      preLoaderRoute: typeof DocControllerControllerRegulationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_doc/controller/controller-list': {
+      id: '/_doc/controller/controller-list'
+      path: '/controller/controller-list'
+      fullPath: '/controller/controller-list'
+      preLoaderRoute: typeof DocControllerControllerListRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_doc/controller/become-a-controller': {
+      id: '/_doc/controller/become-a-controller'
+      path: '/controller/become-a-controller'
+      fullPath: '/controller/become-a-controller'
+      preLoaderRoute: typeof DocControllerBecomeAControllerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_doc/airspace/vfr': {
+      id: '/_doc/airspace/vfr'
+      path: '/airspace/vfr'
+      fullPath: '/airspace/vfr'
+      preLoaderRoute: typeof DocAirspaceVfrRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_doc/airspace/station': {
+      id: '/_doc/airspace/station'
+      path: '/airspace/station'
+      fullPath: '/airspace/station'
+      preLoaderRoute: typeof DocAirspaceStationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_doc/airspace/sop': {
+      id: '/_doc/airspace/sop'
+      path: '/airspace/sop'
+      fullPath: '/airspace/sop'
+      preLoaderRoute: typeof DocAirspaceSopRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_doc/airspace/rvsm': {
+      id: '/_doc/airspace/rvsm'
+      path: '/airspace/rvsm'
+      fullPath: '/airspace/rvsm'
+      preLoaderRoute: typeof DocAirspaceRvsmRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_doc/airspace/restricted': {
+      id: '/_doc/airspace/restricted'
+      path: '/airspace/restricted'
+      fullPath: '/airspace/restricted'
+      preLoaderRoute: typeof DocAirspaceRestrictedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_doc/airspace/fir': {
+      id: '/_doc/airspace/fir'
+      path: '/airspace/fir'
+      fullPath: '/airspace/fir'
+      preLoaderRoute: typeof DocAirspaceFirRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -661,30 +906,43 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   EventsRoute: EventsRouteWithChildren,
   FlightsRoute: FlightsRouteWithChildren,
-  AirspaceFirRoute: AirspaceFirRoute,
-  AirspaceRvsmRoute: AirspaceRvsmRoute,
-  AirspaceSopRoute: AirspaceSopRoute,
-  AirspaceStationRoute: AirspaceStationRoute,
-  AirspaceVfrRoute: AirspaceVfrRoute,
+  DocLoaRoute: DocLoaRoute,
+  DocSopRoute: DocSopRoute,
   AuthCallbackRoute: AuthCallbackRoute,
-  ControllerBecomeAControllerRoute: ControllerBecomeAControllerRoute,
-  ControllerControllerListRoute: ControllerControllerListRoute,
-  ControllerControllerRegulationsRoute: ControllerControllerRegulationsRoute,
-  ControllerLoaRoute: ControllerLoaRoute,
-  ControllerSectorRoute: ControllerSectorRoute,
-  ControllerVisitingAndTransferringRoute:
-    ControllerVisitingAndTransferringRoute,
-  DivisionApiRoute: DivisionApiRoute,
-  DivisionIntroductionRoute: DivisionIntroductionRoute,
-  DivisionMeetingRoute: DivisionMeetingRoute,
-  DivisionPrivacyRoute: DivisionPrivacyRoute,
-  DivisionStaffRoute: DivisionStaffRoute,
   DocsSplatRoute: DocsSplatRoute,
-  PilotIntroductionToFlyRoute: PilotIntroductionToFlyRoute,
-  PilotPilotSoftwaresRoute: PilotPilotSoftwaresRoute,
-  PilotStartToFlyRoute: PilotStartToFlyRoute,
-  PilotTs3Route: PilotTs3Route,
+  NavdataPreferredRoutesRoute: NavdataPreferredRoutesRoute,
+  UsersMeRoute: UsersMeRoute,
+  ControllersIndexRoute: ControllersIndexRoute,
+  UsersIndexRoute: UsersIndexRoute,
+  DocAirspaceFirRoute: DocAirspaceFirRoute,
+  DocAirspaceRestrictedRoute: DocAirspaceRestrictedRoute,
+  DocAirspaceRvsmRoute: DocAirspaceRvsmRoute,
+  DocAirspaceSopRoute: DocAirspaceSopRoute,
+  DocAirspaceStationRoute: DocAirspaceStationRoute,
+  DocAirspaceVfrRoute: DocAirspaceVfrRoute,
+  DocControllerBecomeAControllerRoute: DocControllerBecomeAControllerRoute,
+  DocControllerControllerListRoute: DocControllerControllerListRoute,
+  DocControllerControllerRegulationsRoute:
+    DocControllerControllerRegulationsRoute,
+  DocControllerLoaRoute: DocControllerLoaRoute,
+  DocControllerSectorRoute: DocControllerSectorRoute,
+  DocControllerVisitingAndTransferringRoute:
+    DocControllerVisitingAndTransferringRoute,
+  DocDivisionApiRoute: DocDivisionApiRoute,
+  DocDivisionIntroductionRoute: DocDivisionIntroductionRoute,
+  DocDivisionMeetingRoute: DocDivisionMeetingRoute,
+  DocDivisionPrivacyRoute: DocDivisionPrivacyRoute,
+  DocDivisionStaffRoute: DocDivisionStaffRoute,
+  DocPilotIntroductionToFlyRoute: DocPilotIntroductionToFlyRoute,
+  DocPilotPilotSoftwaresRoute: DocPilotPilotSoftwaresRoute,
+  DocPilotStartToFlyRoute: DocPilotStartToFlyRoute,
+  DocPilotTs3Route: DocPilotTs3Route,
+  ControllersApplicationsIdRoute: ControllersApplicationsIdRoute,
+  ControllersApplicationsNewRoute: ControllersApplicationsNewRoute,
+  ControllersTrainingsIdRoute: ControllersTrainingsIdRoute,
   DocsUtilsImageRoute: DocsUtilsImageRoute,
+  ControllersApplicationsIndexRoute: ControllersApplicationsIndexRoute,
+  ControllersTrainingsIndexRoute: ControllersTrainingsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

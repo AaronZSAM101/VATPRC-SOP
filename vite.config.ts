@@ -3,15 +3,18 @@ import { sentryVitePlugin } from "@sentry/vite-plugin";
 import { nitroV2Plugin } from "@tanstack/nitro-v2-vite-plugin";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import viteReact from "@vitejs/plugin-react";
-import { defineConfig } from "vite";
+import { playwright } from "@vitest/browser-playwright";
 import tsConfigPaths from "vite-tsconfig-paths";
+import { defineConfig } from "vitest/config";
+
+/// <reference types="vitest/config" />
 
 export default defineConfig({
   plugins: [
     tsConfigPaths({
       projects: ["./tsconfig.json"],
     }),
-    tanstackStart(),
+    !process.env.VITEST && tanstackStart(),
     !process.env.VITEST && nitroV2Plugin({ preset: "node-server" }),
     viteReact({
       babel: {
@@ -22,34 +25,41 @@ export default defineConfig({
     sentryVitePlugin({
       org: "xfoxfu",
       project: "vatprc-homepage",
+      telemetry: false,
     }),
   ],
   build: { sourcemap: true },
   server: {
     proxy: {
-      "/api/cors/vatsim-events-prc": { target: "https://my.vatsim.net/api/v2/events/latest", changeOrigin: true },
       "/uniapi": {
         target: "https://uniapi.vatprc.net",
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/uniapi/, ""),
+      },
+      "/community": {
+        target: "https://community.vatprc.net",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/community/, ""),
       },
     },
   },
   test: {
     projects: [
       {
+        extends: true,
         test: {
-          include: ["**/*.unit.{test,spec}.ts"],
+          include: ["**/*.unit.{test,spec}.{ts,tsx}"],
           name: "unit",
           environment: "node",
         },
       },
       {
+        extends: true,
         test: {
           include: ["**/*.browser.{test,spec}.{ts,tsx}"],
           name: "browser",
           browser: {
-            provider: "playwright",
+            provider: playwright(),
             enabled: true,
             headless: true,
             instances: [{ browser: "chromium" }],

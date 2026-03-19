@@ -1,18 +1,13 @@
+import { BackButton } from "@/components/back-button";
 import { FlightWarnings } from "@/components/flight-warnings";
-import { Alert, AlertTitle } from "@/components/ui/alert";
-import { Button } from "@/components/ui/button";
-import { LinkButton } from "@/components/ui/button-link";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { components } from "@/lib/api";
 import { $api } from "@/lib/client";
-import { getLocale } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 import { Trans, useLingui } from "@lingui/react/macro";
+import { ActionIcon, Alert, Button, Popover, Skeleton, Tooltip } from "@mantine/core";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { FC, Fragment } from "react";
-import { TbArrowLeft, TbArrowRight, TbInfoCircleFilled, TbPlaneInflight } from "react-icons/tb";
+import { TbArrowRight, TbInfoCircleFilled, TbPlaneInflight } from "react-icons/tb";
 
 export const Route = createFileRoute("/flights/$callsign")({
   component: RouteComponent,
@@ -46,13 +41,8 @@ const FplField = ({
   ...props
 }: FplFieldProps & React.ComponentProps<"div">) => {
   const labelC = tooltip ? (
-    <Tooltip>
-      <TooltipTrigger asChild>
-        <span className="text-muted-foreground">{label}</span>
-      </TooltipTrigger>
-      <TooltipContent side="right">
-        <p>{tooltip}</p>
-      </TooltipContent>
+    <Tooltip label={tooltip}>
+      <span className="text-muted-foreground">{label}</span>
     </Tooltip>
   ) : (
     <span className="text-muted-foreground">{label}</span>
@@ -63,15 +53,8 @@ const FplField = ({
       {labelC}
       {value && value !== "-" && <span className="font-mono">{value}</span>}
       {value === "-" && (
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <span className="text-muted-foreground min-w-8">{value}</span>
-          </TooltipTrigger>
-          <TooltipContent side="right">
-            <p>
-              <Trans>Check at VATSIM</Trans>
-            </p>
-          </TooltipContent>
+        <Tooltip label={<Trans>Check at VATSIM</Trans>}>
+          <span className="text-muted-foreground min-w-8">{value}</span>
         </Tooltip>
       )}
       {children}
@@ -80,7 +63,8 @@ const FplField = ({
 };
 
 const AircraftCodeCommonHelp = ({ type }: { type: "PBN" | "Equip+T" }) => {
-  const locale = getLocale();
+  const { i18n } = useLingui();
+  const locale = i18n.locale;
   const AIRCRAFT_CODES_HELP_LINK = `https://community.vatprc.net/t/topic/${locale == "en" ? 9700 : 9695}`;
   return (
     <>
@@ -91,7 +75,7 @@ const AircraftCodeCommonHelp = ({ type }: { type: "PBN" | "Equip+T" }) => {
               ? "https://cdn.sa.net/2025/07/19/icdkAQVeoNrablP.png"
               : "https://cdn.sa.net/2025/07/19/JnkshOqN6fr4BzW.png"
           }
-          className="w-[960px] max-w-screen"
+          className="w-240 max-w-screen"
         />
       </p>
       <p className="hover:text-primary/80 underline">
@@ -113,7 +97,7 @@ const ChinaRvsmHelp = () => (
   </>
 );
 
-const CRUISING_LEVEL_TEXT: Record<string, React.ReactNode> = {
+export const CRUISING_LEVEL_TEXT: Record<string, React.ReactElement> = {
   standard_even: <Trans>China RVSM even flight level</Trans>,
   standard_odd: <Trans>China RVSM odd flight level</Trans>,
   standard: <Trans>China RVSM flight level</Trans>,
@@ -301,32 +285,38 @@ const Warning: FC<WarningProps & React.ComponentProps<typeof Popover>> = ({
         const message = WARNING_CODE_TO_MESSAGE[warning.message_code] ?? warning.message_code;
         const content = WARNING_MESSAGE_TO_POPOVER[warning.message_code]?.({ warning, flight }) as React.ReactNode;
 
-        const button = (
-          <Button
-            variant="ghost"
-            size={popoverText ? "mini" : "sm"}
-            className={cn(
-              (WARNING_MESSAGE_TO_SEVERITY[warning.message_code] ?? "error") === "error" &&
-                "text-destructive hover:text-destructive",
-              content && "underline",
-              popoverText && "-ml-2",
-            )}
-            key={warning.message_code}
-          >
-            <TbInfoCircleFilled />
-            {!popoverText && message}
-          </Button>
-        );
+        const button =
+          !popoverText && message ? (
+            <Button
+              variant="outline"
+              size="xs"
+              className={cn(content && "underline", popoverText && "-ml-2")}
+              key={warning.message_code}
+              leftSection={<TbInfoCircleFilled />}
+              color={((WARNING_MESSAGE_TO_SEVERITY[warning.message_code] ?? "error") === "error" && "red") || "gray"}
+            >
+              {!popoverText && message}
+            </Button>
+          ) : (
+            <ActionIcon
+              variant="outline"
+              size="sm"
+              key={warning.message_code}
+              color={((WARNING_MESSAGE_TO_SEVERITY[warning.message_code] ?? "error") === "error" && "red") || "gray"}
+            >
+              <TbInfoCircleFilled />
+            </ActionIcon>
+          );
 
         if (!content && !popoverText) return button;
 
         return (
           <Popover {...props} key={warning.message_code}>
-            <PopoverTrigger asChild>{button}</PopoverTrigger>
-            <PopoverContent className="w-max">
+            <Popover.Target>{button}</Popover.Target>
+            <Popover.Dropdown className="w-max">
               {popoverText && message}
               {content}
-            </PopoverContent>
+            </Popover.Dropdown>
           </Popover>
         );
       })}
@@ -354,16 +344,9 @@ function RouteComponent() {
 
   return (
     <div className="flex flex-col items-start gap-4">
-      <LinkButton variant="ghost" to="..">
-        <TbArrowLeft />
-        <Trans>Back</Trans>
-      </LinkButton>
-      {error?.message && (
-        <Alert color="red">
-          <AlertTitle>{error?.message}</AlertTitle>
-        </Alert>
-      )}
-      {isLoading && <Skeleton className="h-48 w-full" />}
+      <BackButton />
+      {error?.message && <Alert color="red">{error?.message}</Alert>}
+      {isLoading && <Skeleton h={64} />}
       {!error && flight && (
         <div className="flex w-full flex-col gap-4">
           <h1 className="flex items-baseline">

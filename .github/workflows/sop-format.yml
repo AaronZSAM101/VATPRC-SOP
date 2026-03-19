@@ -1,6 +1,5 @@
 name: "Auto Format SOP"
 on:
-  push: { paths: ["docs/**"] }
   pull_request_target: { paths: ["docs/**"] }
 
 jobs:
@@ -12,8 +11,22 @@ jobs:
         with:
           repository: ${{ github.event.pull_request.head.repo.full_name }}
           ref: ${{ github.head_ref }}
-      - run: npm install -g prettier @trivago/prettier-plugin-sort-imports prettier-plugin-tailwindcss
-      - run: prettier --write 'docs/**/*.md' --no-config --print-width 120
+
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Format codebase
+        run: pnpm format
+
       - uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "Auto format SOP"
